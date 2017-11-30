@@ -36,7 +36,7 @@
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
             <!--<scope>compile</scope>-->
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
