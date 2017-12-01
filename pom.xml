@@ -32,9 +32,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>${solr.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
+            <!--只打入部分依赖（集群环境中没有的第三方jar）
+                compile后加入<scope>test</scope>然后install-->
             <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
@@ -42,8 +50,6 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoop.version}</version>
-            <!--只打入部分依赖（集群环境中没有的第三方jar）
-                compile后加入<scope>test</scope>然后install-->
             <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
