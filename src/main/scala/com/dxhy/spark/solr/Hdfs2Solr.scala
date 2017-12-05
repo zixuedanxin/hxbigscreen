@@ -17,10 +17,12 @@ object Hdfs2Solr {
       System.exit(1)
     }
     val sparkConf = new SparkConf().setAppName("Hdfs2Solr")
+    sparkConf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    sparkConf.registerKryoClasses(Array(classOf[String]))
     val sc = new SparkContext(sparkConf)
     val rddStr: RDD[String] = sc.textFile(args(0))
 
-    val start = System.currentTimeMillis
+    //val start = System.currentTimeMillis
 
     rddStr.filter(line => DataProcessUtil.jsonDataValidate(line)).repartition(36).foreach { line=>
       val invoice4Solr = generateInvoice4Solr(line)
@@ -30,7 +32,7 @@ object Hdfs2Solr {
     ClusterSolrDao.saveServer.commit()
     ClusterSolrDao.saveServer.shutdown()
 
-    println("cost:" + (System.currentTimeMillis - start) / 60000.0 + "mins.")//cost:1.92mins-13184条   28mins-805483条
+    //println("cost:" + (System.currentTimeMillis - start) / 60000.0 + "mins.")//cost:1.92mins-13184条   28mins-805483条
     sc.stop()
 
   }

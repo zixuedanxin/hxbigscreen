@@ -1,4 +1,3 @@
-/*
 package com.dxhy.solr;
 
 import com.alibaba.fastjson.JSONObject;
@@ -265,4 +264,3 @@ public class SolrTest {
 	}
 	
 }
-*/
