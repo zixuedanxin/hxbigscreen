@@ -11,6 +11,7 @@
         <logback-version>1.1.3</logback-version>
         <hadoop.version>2.6.0-cdh5.12.0</hadoop.version>
         <spark.version>1.6.0-cdh5.12.0</spark.version>
+        <hbase.version>1.2.0-cdh5.12.0</hbase.version>
         <solr.version>4.10.3-cdh5.12.0</solr.version>
     </properties>
 
@@ -38,40 +39,58 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbase.version}</version>
+            <!--只打入部分依赖（集群环境中没有的第三方jar）
+               compile后加入<scope>test</scope>然后install-->
+            <!--<scope>compile</scope>-->
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-server</artifactId>
+            <version>${hbase.version}</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-spark -->
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-spark</artifactId>
+            <version>${hbase.version}</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
-            <!--只打入部分依赖（集群环境中没有的第三方jar）
-                compile后加入<scope>test</scope>然后install-->
-            <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoop.version}</version>
-            <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
             <version>${hadoop.version}</version>
-            <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
             <version>${hadoop.version}</version>
-            <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-common</artifactId>
             <version>${hadoop.version}</version>
-            <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
 
@@ -80,7 +99,6 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-assembly_2.10</artifactId>
             <version>${spark.version}</version>
-            <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
 
@@ -88,12 +106,21 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.28</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+            <!--<scope>test</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.10</artifactId>
             <version>0.10.0.1</version>
+            <!--<scope>test</scope>-->
         </dependency>
 
         <dependency>
@@ -106,14 +133,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-            <!--<scope>compile</scope>-->
-            <!--<scope>test</scope>-->
         </dependency>
 
         <!--   log   -->

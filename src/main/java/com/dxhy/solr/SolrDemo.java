@@ -163,7 +163,7 @@ public class SolrDemo {
                 cloudSolrServer.addBean(invoice4Solr);
 //                cloudSolrServer.commit();//cost:2808678ms  47mins 13184条
             }
-            cloudSolrServer.commit();//cost:109509ms  1.8mins 13184条
+            cloudSolrServer.commit();//cost:109509ms  1.8mins 13184条 3+mins
             System.out.println("cost:" + (System.currentTimeMillis() - start) + "ms.");
             System.out.println("cost:" + (System.currentTimeMillis() - start)/60000.0 + "mins.");
             reader.close();

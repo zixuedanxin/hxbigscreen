@@ -17,6 +17,10 @@ import static com.dxhy.solr.dao.BaseSolrDao.generateInvoice4Solr;
 public class LocalFile2Solr {
 
     private static CloudSolrServer cloudSolrServer;
+    private static String zkHost = "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181/solr";
+    private static String defaultCollection = "test_invoice2";
+    private static int zkClientTimeout = 20000;
+    private static int zkConnectTimeout = 1000;
 
     private static synchronized CloudSolrServer getCloudSolrServer(final String zkHost) {
         if (cloudSolrServer == null) {
@@ -29,12 +33,8 @@ public class LocalFile2Solr {
         return cloudSolrServer;
     }
 
-    public static void main(String[] args) {
+    public static void run(){
 
-        final String zkHost = "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181/solr";
-        final String defaultCollection = "test_invoice2";
-        final int zkClientTimeout = 20000;
-        final int zkConnectTimeout = 1000;
         CloudSolrServer cloudSolrServer = getCloudSolrServer(zkHost);
 
         cloudSolrServer.setDefaultCollection(defaultCollection);
@@ -54,7 +54,7 @@ public class LocalFile2Solr {
                 Invoice4Solr invoice4Solr = generateInvoice4Solr(strJson);
                 cloudSolrServer.addBean(invoice4Solr);
             }
-            cloudSolrServer.commit();//cost:109509ms  1.8mins 13184条
+            cloudSolrServer.commit();//cost:109509ms  1.8mins 13184条 3.46mins
             System.out.println("cost:" + (System.currentTimeMillis() - start) + "ms.");
             System.out.println("cost:" + (System.currentTimeMillis() - start)/60000.0 + "mins.");
             reader.close();
@@ -75,4 +75,9 @@ public class LocalFile2Solr {
         cloudSolrServer.shutdown();
 
     }
+
+    public static void main(String[] args) {
+        run();
+    }
+
 }

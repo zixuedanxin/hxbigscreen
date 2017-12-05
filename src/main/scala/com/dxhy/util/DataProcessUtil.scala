@@ -27,7 +27,7 @@ object DataProcessUtil {
       //发票代码
       val fpdm = jsonFP.getString("FP_DM")
 
-      if (nsrmc == null || nsrmc.isEmpty || kprq == null || kprq.isEmpty
+      if (strJson == null || strJson.isEmpty || nsrmc == null || nsrmc.isEmpty || kprq == null || kprq.isEmpty
         || nsrsbh == null || nsrsbh.isEmpty || fpdm == null || fpdm.isEmpty) {
 
         isValidate = false
