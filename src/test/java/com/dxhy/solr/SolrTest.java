@@ -1,3 +1,4 @@
+/*
 package com.dxhy.solr;
 
 import com.alibaba.fastjson.JSONObject;
@@ -36,7 +37,7 @@ public class SolrTest {
 	@Test
 	public void test_deleteAll() throws Exception{
 		
-		server.setDefaultCollection("test_invoice2");
+		server.setDefaultCollection("test_invoice");
 		server.deleteByQuery("*:*");
 		server.commit();
 		
@@ -264,3 +265,4 @@ public class SolrTest {
 	}
 	
 }
+*/

@@ -13,7 +13,7 @@ object Hdfs2Solr {
 
   def main(args: Array[String]): Unit = {
     if (args.length < 1) {
-      System.err.println("Usage: Hdfs <directory>")
+      System.err.println("Error-Pls Usage: Hdfs <directory>")
       System.exit(1)
     }
     val sparkConf = new SparkConf().setAppName("Hdfs2Solr")
@@ -22,17 +22,25 @@ object Hdfs2Solr {
     val sc = new SparkContext(sparkConf)
     val rddStr: RDD[String] = sc.textFile(args(0))
 
-    //val start = System.currentTimeMillis
+    val start = System.currentTimeMillis
 
-    rddStr.filter(line => DataProcessUtil.jsonDataValidate(line)).repartition(36).foreach { line=>
+    rddStr.filter(line => DataProcessUtil.jsonDataValidate(line)).repartition(24).foreachPartition{
+      partition => {
+        partition.foreach{
+          line =>
+            val invoice4Solr = generateInvoice4Solr(line)
+            ClusterSolrDao.saveServer.addBean(invoice4Solr)
+        }
+      }
+      /*foreach { line=>
       val invoice4Solr = generateInvoice4Solr(line)
-      ClusterSolrDao.saveServer.addBean(invoice4Solr)
+      ClusterSolrDao.saveServer.addBean(invoice4Solr)}*/
     }
 
     ClusterSolrDao.saveServer.commit()
     ClusterSolrDao.saveServer.shutdown()
 
-    //println("cost:" + (System.currentTimeMillis - start) / 60000.0 + "mins.")//cost:1.92mins-13184条   28mins-805483条
+    println("cost:" + (System.currentTimeMillis - start) / 60000.0 + "mins.")//cost:1.92mins-13184条  5.4mins-805483条
     sc.stop()
 
   }

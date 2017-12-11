@@ -55,13 +55,13 @@
             <!--<scope>test</scope>-->
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-spark -->
+       <!-- &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.hbase/hbase-spark &ndash;&gt;
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-spark</artifactId>
             <version>${hbase.version}</version>
-            <!--<scope>test</scope>-->
-        </dependency>
+            &lt;!&ndash;<scope>test</scope>&ndash;&gt;
+        </dependency>-->
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -203,7 +203,7 @@
                     </descriptorRefs>
                     <!--<archive>
                         <manifest>
-                            <mainClass>com.dxhy.service.dayMapreduceProject.GetOneMonthNSRSBHMapreduce</mainClass>
+                            <mainClass>com.xx.Xx</mainClass>
                         </manifest>
                     </archive>-->
                 </configuration>

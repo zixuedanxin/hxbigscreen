@@ -34,6 +34,8 @@ import org.apache.solr.common.SolrInputDocument;
 
 import com.alibaba.fastjson.JSONObject;
 
+//com.dxhy.mr.solr.HBaseIndexerMain
+//5mins, 38sec - 805483
 public class HBaseIndexerMain {
 
 	public static Logger log = Logger.getLogger(HBaseIndexerMain.class);
@@ -235,6 +237,7 @@ public class HBaseIndexerMain {
 			for(MapWritable map:values){
 				SolrInputDocument solrDoc = new SolrInputDocument();
 				for(Writable k:map.keySet()){
+					//将kprq转为long类型
 					if(k.toString().equals("KPRQ")){
 						solrDoc.addField(k.toString(), Long.valueOf(map.get(k).toString()));
 					}else{
@@ -327,7 +330,7 @@ public class HBaseIndexerMain {
         scan.setCacheBlocks(false); // scan的数据不放在缓存中，一次性的  
         scan.setMaxResultSize(4194304);//每次scan返回的数据大小
         
-		//设置单列值过滤器,扫描时间范围
+		/*//设置单列值过滤器,扫描时间范围
 		FilterList filters = new FilterList(Operator.MUST_PASS_ALL);
 		SingleColumnValueFilter startFilter = new SingleColumnValueFilter(Bytes.toBytes("Info")
 				, Bytes.toBytes("KPRQ"), CompareOp.GREATER_OR_EQUAL, Bytes.toBytes(args[0]+"00000000"));
@@ -339,7 +342,7 @@ public class HBaseIndexerMain {
 		
 		filters.addFilter(startFilter);
 		filters.addFilter(endFilter);
-		scan.setFilter(filters);
+		scan.setFilter(filters);*/
         
         /* 需要建索引的数据 */  
 //        scan.addColumn(Bytes.toBytes("Info"), Bytes.toBytes("Data"));  
@@ -353,8 +356,8 @@ public class HBaseIndexerMain {
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(NullWritable.class);
         
-//        FileOutputFormat.setOutputPath(job, new Path("hdfs://DXHY-YFEB-01/Indexer"));
-        FileOutputFormat.setOutputPath(job, new Path("hdfs://nameservice/Indexer"));
+        FileOutputFormat.setOutputPath(job, new Path("hdfs://DXHY-YFEB-02/Indexer"));
+//        FileOutputFormat.setOutputPath(job, new Path("hdfs://nameservice/Indexer"));
         
         return job;  
     }  
@@ -364,16 +367,17 @@ public class HBaseIndexerMain {
 			Configuration conf = HBaseConfiguration.create();  
 	        conf.setBoolean("mapred.map.tasks.speculative.execution", false); 
 	        //zookeeper集群
-			conf.set("hbase.zookeeper.quorum", "HT-FPDSJ-JS01:2181,HT-FPDSJ-JS02:2181,HT-FPDSJ-JS03:2181");
-//	        conf.set("hbase.zookeeper.quorum", "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181");
+//			conf.set("hbase.zookeeper.quorum", "HT-FPDSJ-JS01:2181,HT-FPDSJ-JS02:2181,HT-FPDSJ-JS03:2181");
+	        conf.set("hbase.zookeeper.quorum", "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181");
 	        //solr缓存数量
 			conf.setInt("solr.commit.size",100000);
 			//solr集群的zookeeper集群
-			conf.set("solr.server", "HT-FPDSJ-JS01:2181,HT-FPDSJ-JS02:2181,HT-FPDSJ-JS03:2181/solr");
-//			conf.set("solr.server", "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181/solr");
+//			conf.set("solr.server", "HT-FPDSJ-JS01:2181,HT-FPDSJ-JS02:2181,HT-FPDSJ-JS03:2181/solr");
+			conf.set("solr.server", "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181/solr");
 			//solr集群的collection
-			conf.set("solr.collection", args[2]);
-	        String tablename = "test:Invoice";  
+			conf.set("solr.collection", "test_invoice");
+//			conf.set("solr.collection", args[2]);
+	        String tablename = "test:Invoice";
 			try {
 				Job job = createSubmittableJob(conf, tablename,args);
 				System.exit(job.waitForCompletion(true) ? 0 : 1);

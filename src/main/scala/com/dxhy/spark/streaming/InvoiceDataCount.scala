@@ -109,7 +109,7 @@ object InvoiceDataCount extends CLogger {
 
   def main(args: Array[String]): Unit = {
 
-    val sparkConf = new SparkConf().setAppName("InvoiceDataCount")//.setMaster("local[2]")
+    val sparkConf = new SparkConf().setAppName("InvoiceDataCount")
 
     val ssc = new StreamingContext(sparkConf, Seconds(10))//方块长度
     //ssc.checkpoint("checkpoint")

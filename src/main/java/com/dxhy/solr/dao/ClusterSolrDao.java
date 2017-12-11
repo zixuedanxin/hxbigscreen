@@ -27,7 +27,7 @@ public class ClusterSolrDao {
     static {
         props = new Properties();
         try {
-            InputStream in = BaseSolrDao.class.getResourceAsStream("/solr.properties");
+            InputStream in = ClusterSolrDao.class.getResourceAsStream("/solr.properties");
             props.load(in);
             ZK_SERVER = props.getProperty("ZK_SERVER");
             COLLECTION = props.getProperty("COLLECTION");
