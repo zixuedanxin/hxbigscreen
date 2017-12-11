@@ -43,7 +43,7 @@
             <artifactId>hbase-client</artifactId>
             <version>${hbase.version}</version>
             <!--只打入部分依赖（集群环境中没有的第三方jar）
-               compile后加入<scope>test</scope>然后install-->
+               compile后加入<scope>test</scope>（这是指用于测试的依赖）或者把依赖注释了然后install-->
             <!--<scope>compile</scope>-->
             <!--<scope>test</scope>-->
         </dependency>
