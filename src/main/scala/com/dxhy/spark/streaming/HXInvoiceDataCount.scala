@@ -11,7 +11,7 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
   * 发票数据统计 | 同一企业nsrmc+nsrsbh 同一行业hydm x秒内开票量（张） 发票额 纳税额
-  * Created by drguo on 2017/11/22.
+  * Created by drguo on 2017/12/12.
   */
 //com.dxhy.spark.streaming.HXInvoiceDataCount
 object HXInvoiceDataCount extends CLogger {
