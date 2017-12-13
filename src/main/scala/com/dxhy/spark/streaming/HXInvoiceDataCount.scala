@@ -13,8 +13,8 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
   * 发票数据统计 | 同一企业nsrmc+nsrsbh 同一行业hydm x秒内开票量（张） 发票额 纳税额
   * Created by drguo on 2017/11/22.
   */
-//com.dxhy.spark.streaming.InvoiceDataCount
-object InvoiceDataCount extends CLogger {
+//com.dxhy.spark.streaming.HXInvoiceDataCount
+object HXInvoiceDataCount extends CLogger {
 
   /**
     * 统计
@@ -93,14 +93,15 @@ object InvoiceDataCount extends CLogger {
         val nsrmc = key._1
         val nsrsbh = key._2
         val hydm = key._4
+
         //print(province_Number + "00", city_Number, fpdm, nsrmc, nsrsbh, formatKprq, kpje, kpse, cnt)
-        info("nsrmc=" + nsrmc + "\tnsrsbh=" + nsrsbh + "\tcnt=" + cnt)
+        //info("nsrmc=" + nsrmc + "\tnsrsbh=" + nsrsbh + "\tcnt=" + cnt)
 
         JDBCUtils.insert2MapStat(province_Number + "00", city_Number, fpdm, nsrmc, nsrsbh, formatKprq, kpje, kpse, cnt) //大入口
 
         //JDBCUtils.insert2RegionCount(province_Number, formatKprq, cnt);//地图表
 
-        //JDBCUtils.insert2FPHYProportion(hydm, cnt)
+        JDBCUtils.insert2FPHYProportion(hydm, cnt)
 
       }
     }
@@ -111,14 +112,15 @@ object InvoiceDataCount extends CLogger {
 
   def main(args: Array[String]): Unit = {
 
-    val sparkConf = new SparkConf().setAppName("InvoiceDataCount")
+    val sparkConf = new SparkConf().setAppName("HXInvoiceDataCount")
 
-    val ssc = new StreamingContext(sparkConf, Seconds(10))//方块长度
-    //ssc.checkpoint("checkpoint")
+    val ssc = new StreamingContext(sparkConf, Seconds(5))//方块长度
+    //ssc.checkpoint("kafka-checkpoint")
 
-    val topics = "testinvoice"
+    //val topics = "test1"
+    val topics = "einvoice"
     val numThreads = "2"
-    val zkQuorum = "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181"
+    val zkQuorum = "HXZT-BIGDATA-01:2181,HXZT-BIGDATA-02:2181,HXZT-BIGDATA-03:2181,HXZT-BIGDATA-04:2181"
     val group = "51fp"
 
     runCount(ssc, topics, numThreads, zkQuorum, group)

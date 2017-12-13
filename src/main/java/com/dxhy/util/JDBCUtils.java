@@ -20,11 +20,7 @@ public class JDBCUtils {
 
     private static Connection getConn() {
         String driver = "com.mysql.jdbc.Driver";
-//	    String url = "jdbc:mysql://10.1.1.102:3306/platform?useUnicode=true&characterEncoding=utf8";
-//	    String password = "dxhy!@#";
-        String url = "jdbc:mysql://10.1.1.13:3306/platform?useUnicode=true&characterEncoding=utf8";
-        String username = "root";
-        String password = "root";
+//
         Connection conn = null;
         try {
             Class.forName(driver); //classLoader,加载对应驱动
