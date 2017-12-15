@@ -93,14 +93,16 @@ object InvoiceDataCount extends CLogger {
         val nsrmc = key._1
         val nsrsbh = key._2
         val hydm = key._4
+
         //print(province_Number + "00", city_Number, fpdm, nsrmc, nsrsbh, formatKprq, kpje, kpse, cnt)
-        info("nsrmc=" + nsrmc + "\tnsrsbh=" + nsrsbh + "\tcnt=" + cnt)
+        //info("nsrmc=" + nsrmc + "\tnsrsbh=" + nsrsbh + "\tcnt=" + cnt)
 
         JDBCUtils.insert2MapStat(province_Number + "00", city_Number, fpdm, nsrmc, nsrsbh, formatKprq, kpje, kpse, cnt) //大入口
 
+        JDBCUtils.insert2FPHYProportion(hydm, cnt)
+
         //JDBCUtils.insert2RegionCount(province_Number, formatKprq, cnt);//地图表
 
-        //JDBCUtils.insert2FPHYProportion(hydm, cnt)
 
       }
     }
@@ -113,13 +115,13 @@ object InvoiceDataCount extends CLogger {
 
     val sparkConf = new SparkConf().setAppName("InvoiceDataCount")
 
-    val ssc = new StreamingContext(sparkConf, Seconds(10))//方块长度
-    //ssc.checkpoint("checkpoint")
+    val ssc = new StreamingContext(sparkConf, Seconds(5))//方块长度
+    ssc.checkpoint("kafka-checkpoint")
 
-    val topics = "testinvoice"
+    val topics = "einvoice"
     val numThreads = "2"
     val zkQuorum = "DXHY-YFEB-01:2181,DXHY-YFEB-02:2181,DXHY-YFEB-03:2181"
-    val group = "51fp"
+    val group = "test"
 
     runCount(ssc, topics, numThreads, zkQuorum, group)
   }

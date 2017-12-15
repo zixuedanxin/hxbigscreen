@@ -99,9 +99,9 @@ object HXInvoiceDataCount extends CLogger {
 
         JDBCUtils.insert2MapStat(province_Number + "00", city_Number, fpdm, nsrmc, nsrsbh, formatKprq, kpje, kpse, cnt) //大入口
 
-        //JDBCUtils.insert2RegionCount(province_Number, formatKprq, cnt);//地图表
-
         JDBCUtils.insert2FPHYProportion(hydm, cnt)
+
+        //JDBCUtils.insert2RegionCount(province_Number, formatKprq, cnt);//地图表
 
       }
     }
@@ -115,13 +115,14 @@ object HXInvoiceDataCount extends CLogger {
     val sparkConf = new SparkConf().setAppName("HXInvoiceDataCount")
 
     val ssc = new StreamingContext(sparkConf, Seconds(5))//方块长度
-    //ssc.checkpoint("kafka-checkpoint")
+    ssc.checkpoint("kafka-checkpoint")
 
-    //val topics = "test1"
+//    val topics = "test1"
     val topics = "einvoice"
     val numThreads = "2"
     val zkQuorum = "HXZT-BIGDATA-01:2181,HXZT-BIGDATA-02:2181,HXZT-BIGDATA-03:2181,HXZT-BIGDATA-04:2181"
-    val group = "51fp"
+//    val group = "51fp"
+    val group = "hxzt-51fp"
 
     runCount(ssc, topics, numThreads, zkQuorum, group)
   }
