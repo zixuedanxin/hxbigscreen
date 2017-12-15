@@ -56,8 +56,8 @@ public class QueryData {
         for (Result rs : res) {
             bt1 = rs.getValue("Info".getBytes(), "Data".getBytes());
             if (bt1 != null && bt1.length>0) {str1 = new String(bt1);} else {str1 = "无数据";} //对空值进行new String的话会抛出异常
-            System.out.print(new String(rs.getRow()) + " ");
-            System.out.println();
+            System.out.print(new String(rs.getRow()) + "---");
+            System.out.println(str1);
         }
         table.close();
     }
